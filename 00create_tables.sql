@@ -1,0 +1,41 @@
+CREATE TABLE IF NOT EXISTS books(
+	book_id     int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	author      int UNSIGNED NOT NULL,
+	title       VARCHAR(100) NOT NULL,
+	year        int UNSIGNED NOT NULL  DEFAULT 1800,
+	language    VARCHAR(2) NOT NULL DEFAULT 'es' COMMENT 'iso 639-1 language',
+	cover_url   VARCHAR(500),
+	price       DOUBLE(6,2) NOT NULL DEFAULT 10.0,
+	sellable    TINYINT(1) DEFAULT 1,
+	copies      INTEGER NOT NULL DEFAULT 1,
+	description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS authors(
+	author_id   int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	name        varchar(100) NOT NULL,
+	country     VARCHAR(3)
+);
+
+CREATE TABLE IF NOT EXISTS clients(
+   client_id   INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+   `name`        varchar(50) NOT NULL,
+   email       varchar(100) NOT NULL UNIQUE,
+   birthday    DATETIME,
+   gender      ENUM('M', 'F', 'ND') NOT NULL,
+   active      TINYINT(1) NOT NULL DEFAULT 1,
+   created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
+      ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS operations(
+   operation_id   INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+   book_id        INTEGER UNSIGNED NOT NULL, 
+   client_id      INTEGER UNSIGNED NOT NULL,
+   `type`         ENUM('PRESTADO', 'DEVUELTO', 'RENTADO'),
+   created_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      ON UPDATE CURRENT_TIMESTAMP,
+   finished TINYINT(1) NOT NULL
+);
