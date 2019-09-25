@@ -81,7 +81,50 @@ SET created_at = (select date_format(
 
 Quien rento, que libro y cuando
 
+SELECT c.name as client, b.title,a.name as author, a.nationality, t.type, t.created_at
+FROM transactions as t
+LEFT JOIN clients as c
+   ON c.client_id = t.client_id
+LEFT JOIN books as b
+   ON t.book_id = b.book_id
+LEFT JOIN authors as a
+   ON b.author_id = a.author_id
+ORDER BY created_at DESC
+;
 
+/**
+*
+**/
+SELECT c.name as client, 
+      b.title,
+      CONCAT(a.name, "(",a.nationality,")") as author, 
+      t.type, 
+      t.created_at
+FROM transactions as t
+LEFT JOIN clients as c
+   ON c.client_id = t.client_id
+LEFT JOIN books as b
+   ON t.book_id = b.book_id
+LEFT JOIN authors as a
+   ON b.author_id = a.author_id
+ORDER BY created_at DESC
+;
 
+________
+CUANTOS DIAS HAN PASADO
 
-
+SELECT c.name as client, 
+      b.title,
+      CONCAT(a.name, "(",a.nationality,")") as author, 
+      t.type, 
+      t.created_at,
+      TO_DAYS(NOW()) - TO_DAYS(t.created_at) as ago
+FROM transactions as t
+LEFT JOIN clients as c
+   ON c.client_id = t.client_id
+LEFT JOIN books as b
+   ON t.book_id = b.book_id
+LEFT JOIN authors as a
+   ON b.author_id = a.author_id
+ORDER BY created_at DESC
+;
